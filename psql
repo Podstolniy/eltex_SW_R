@@ -1,0 +1,39 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# import section postgre/sql
+import psycopg2
+import sql
+from contextlib import closing
+from psycopg2.extras import DictCursor
+
+# import section for snmp
+from pysnmp.hlapi import *
+from ipaddress import *
+from datetime import datetime
+
+with closing(psycopg2.connect(dbname = 'elt',
+                              user = 'elt',
+                              password = '123',
+                              host = '127.0.0.1')) as conn:
+    with conn.cursor() as cursor:
+        conn.autocommit = True
+#        cursor.execute('TRUNCATE TABLE eltstatistic_sw_name RESTART IDENTITY')
+
+#        cursor.execute('TRUNCATE eltstatistic_sw_name, '
+#                       'eltstatistic_sw_cpu RESTART IDENTITY')
+
+        #sql.SQL('INSERT INTO cpu_eltex(id, cpu_eltex) VALUES (6, 2)')
+        #                        'VALUES(%s,%s)',[a,b[0:95]]
+        #               )
+        #cursor.execute(insert)
+#        for a1,b1 in zip(a,b):
+#            cursor.execute('INSERT INTO eltstatistic_sw_name(name, snum) '
+#                           'VALUES(%s,%s)',[a1,b1])
+        cursor.execute('DELETE FROM eltstatistic_sw_cpu')
+        cursor.execute('SELECT * FROM eltstatistic_sw_cpu')
+        for row in cursor:
+            print (row)
+        #cursor.execute(insert)
+        #cursor.execute('DELETE FROM cpu_eltex')
+        #cursor.execute('ALTER SEQUENCE cpu_eltex RESTART WITH 15')
