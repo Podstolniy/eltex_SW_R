@@ -24,9 +24,9 @@ COMMAND = sys.argv[1]
 with open('list_sw_1.txt', 'r') as IPAS:
     a = []
     for s in IPAS:
-        #a.append(s.replace('\n',''))
         a.append(s.join(s.splitlines()))
-for i in range(len(a)-1):
+i = 0
+while i < len(a):
     ip = a[i].split(',')[0]
     pas = a[i].split(',')[1]
     print('Connection to device {}@{}'.format(USER,ip))
@@ -41,3 +41,4 @@ for i in range(len(a)-1):
         ssh.sendline('exit')
         print(ssh.before.decode('utf-8'))
         ssh.close()
+    i = i + 1
