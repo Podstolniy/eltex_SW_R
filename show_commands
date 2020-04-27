@@ -25,20 +25,32 @@ with open('list_sw_1.txt', 'r') as IPAS:
     a = []
     for s in IPAS:
         a.append(s.join(s.splitlines()))
-i = 0
-while i < len(a):
-    ip = a[i].split(',')[0]
-    pas = a[i].split(',')[1]
-    print('Connection to device {}@{}'.format(USER,ip))
-    with pexpect.spawn('ssh {}@{}'.format(USER,ip)) as ssh:
-        ssh.expect('[Pp]assword:')
-        ssh.sendline(pas)
-        ssh.sendline('enable')
-        ssh.sendline(pas)
-        ssh.expect('#')
-        ssh.sendline(COMMAND)
-        ssh.expect('#')
-        ssh.sendline('exit')
-        print(ssh.before.decode('utf-8'))
-        ssh.close()
-    i = i + 1
+try:
+    i = 0
+    while i < len(a):
+        ip = a[i].split(',')[0]
+        pas = a[i].split(',')[1]
+        print('Connection to device {}@{}'.format(USER,ip))
+        with pexpect.spawn('ssh {}@{}'.format(USER,ip)) as ssh:
+            ssh.expect('[Pp]assword:')
+            try:
+                ssh.sendline(pas)
+                ssh.sendline('enable')
+                ssh.sendline(pas)
+                ssh.expect('#')
+                ssh.sendline(COMMAND)
+                ssh.expect('#')
+                ssh.sendline('exit')
+                print(ssh.before.decode('utf-8'))
+                ssh.close()
+                i = i + 1
+            except pexpect.EOF:
+                print('EOF_{}'.format(ip))
+                i = i + 1
+                continue
+            except pexpext.TIMEOUT:
+                print('TIMEOUT_{}'.format(ip))
+                i = i + 1
+                continue
+except KeyboardInterrupt:
+    print('Ctrl+C')
