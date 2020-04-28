@@ -2,7 +2,7 @@
 #my_unicode_string = u"This's Unicode!"
 #!/usr/bin/python
 
-#пример: python authorization.py 'sh ver'
+#пример: python authorization.py '?' вернет список доступных команд в режиме show!
 import os
 import platform
 import csv
