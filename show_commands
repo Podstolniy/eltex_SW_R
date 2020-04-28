@@ -38,7 +38,7 @@ try:
                 ssh.sendline('enable')
                 ssh.sendline(pas)
                 ssh.expect('#')
-                ssh.sendline(COMMAND)
+                ssh.sendline('show {}'.format(COMMAND))
                 ssh.expect('#')
                 ssh.sendline('exit')
                 print(ssh.before.decode('utf-8'))
